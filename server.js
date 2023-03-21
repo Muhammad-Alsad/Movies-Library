@@ -17,11 +17,11 @@ app.get('/',homePageHandler);
 app.get('/favorite',favoritePageHandler);
 app.get('/trending',trendingHandler);
 app.get('/search',searchHandler);
-app.get('/language',languageHandler);
+app.get('/top_rated',topratedHandler);
 app.get('/popular', popularHandler);
 
 //should be the last line in routes   //// * => mean any thing than your routes links!!
-app.get('*',handleNotFoundError);
+//app.get('*',handleNotFoundError);
 
 
 //links to test 
@@ -70,14 +70,16 @@ function searchHandler(req,res){
     })
 }
 
-function languageHandler(req,res){
-    //let movielanguge = req.query.language
-    let url =`https://api.themoviedb.org/3/movie/550/images?api_key=${apiKey}&language=en-US&include_image_language=en,null`
+function topratedHandler(req,res){
+    let url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`;
+   
     axios.get(url)
     .then((result)=>{
-        let movieL=result.data.results;
-        res.json(movieL)
+       
+        res.json(result.data.results);
     })
+     
+    
     .catch((err)=>{
         console.log(err);
     })
