@@ -6,11 +6,25 @@ const app = express();
 const axios = require('axios');
 const getData = require("./Movie Data/data.json");
 require('dotenv').config();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
 app.use(cors());
 const port = process.env.Portnum;
 const apiKey=process.env.api_key;
+const username=process.env.user_name;
+const Password=process.env.password ;
+const Dbname = process.env.DbName;
 
-
+//pg
+const { Client } = require('pg')
+//postgres:username:password@localhost:5432/databasename
+let url=`postgres:${username}:${Password}@localhost:5432/${Dbname}`
+const client = new Client(url)
 
 //routes
 app.get('/',homePageHandler);
@@ -19,9 +33,11 @@ app.get('/trending',trendingHandler);
 app.get('/search',searchHandler);
 app.get('/top_rated',topratedHandler);
 app.get('/popular', popularHandler);
+app.post('/addMovie',addMovieHandler);
+app.get('/getAllMovies',getAllMoviesHandlers);
 
 //should be the last line in routes   //// * => mean any thing than your routes links!!
-//app.get('*',handleNotFoundError);
+app.get('*',handleNotFoundError);
 
 
 //links to test 
@@ -95,6 +111,28 @@ function popularHandler(req, res){
     })
 }
 
+function addMovieHandler(req,res){
+    //console.log(req.body);
+    let {title,time,overView} =req.body; //destructuring //
+   // console.log(title,time,overView);
+   let sql = `INSERT INTO Movie (title, time, overView)
+   VALUES ($1,$2,$3) RETURNING *; `
+   let values = [title,time,overView];
+
+    client.query(sql,values).then((result)=>{
+         // res.status(201).send("data successfully saved in dataBase")
+        res.status(201).json(result.rows)
+    }).catch()
+}
+
+function getAllMoviesHandlers(req,res){
+    let sql=`SELECT * FROM movie;`
+    client.query(sql).then((result)=>{
+        //console.log(result.rows);
+        res.json(result.rows);
+    }).catch()
+}
+
 //constructor
 function MovieData(id,title,release_date,poster_path,overview){
     this.id=id;
@@ -110,6 +148,9 @@ function handleNotFoundError(req,res){
 
 }
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+//not listening intel they connect to the DB // Client.connect();//
+client.connect().then(()=>{
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`)
+      })
+}).catch();
