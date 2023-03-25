@@ -1,5 +1,4 @@
 'use strict';
-
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -7,7 +6,6 @@ const axios = require('axios');
 const getData = require("./Movie Data/data.json");
 require('dotenv').config();
 const bodyParser = require('body-parser');
-
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
@@ -39,13 +37,11 @@ app.get('/getAllMovies',getAllMoviesHandlers);
 //should be the last line in routes   //// * => mean any thing than your routes links!!
 app.get('*',handleNotFoundError);
 
-
 //links to test 
 //http://localhost:3001/
 //http://localhost:3001/favorite
 
-
-//functions
+//###Functions####
 function homePageHandler(req,res){
     let result=[];
     let newgetData = new MovieData(getData.title,getData.poster_path,getData.overview);

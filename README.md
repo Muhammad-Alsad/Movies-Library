@@ -45,3 +45,36 @@ OPEN THE TERMENIAL
 Added new features to get the data from API and load it 
 
 send a query to search and get a result as info 
+
+
+---------------------------------------
+
+## - v1.2 UPDATES
+
+---------------------------
+
+## Api img 
+
+![DataBase](./assets/part3.jpeg)
+
+
+--------------------------
+
+download new stuff
+
+- npm i body-parser
+- npm i pg
+
+## Connect my Table to my DataBase
+
+
+- psql -d [name of my table] -f [name of my file]
+
+
+----------------------------------
+
+## DataBase
+
+- lean how to connect a database to aserver 
+- how to insert the data inside my table 
+- get my database and show it in a table using a Get methos !!
