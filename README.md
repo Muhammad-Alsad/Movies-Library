@@ -77,4 +77,4 @@ download new stuff
 
 - lean how to connect a database to aserver 
 - how to insert the data inside my table 
-- get my database and show it in a table using a Get methos !!
+- get my database and show it in a table using a Get methods !!
