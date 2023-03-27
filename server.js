@@ -1,5 +1,4 @@
 'use strict';
-
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -7,7 +6,6 @@ const axios = require('axios');
 const getData = require("./Movie Data/data.json");
 require('dotenv').config();
 const bodyParser = require('body-parser');
-
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
@@ -36,16 +34,15 @@ app.get('/popular', popularHandler);
 app.post('/addMovie',addMovieHandler);
 app.get('/getAllMovies',getAllMoviesHandlers);
 
+
 //should be the last line in routes   //// * => mean any thing than your routes links!!
 app.get('*',handleNotFoundError);
-
 
 //links to test 
 //http://localhost:3001/
 //http://localhost:3001/favorite
 
-
-//functions
+//###Functions####
 function homePageHandler(req,res){
     let result=[];
     let newgetData = new MovieData(getData.title,getData.poster_path,getData.overview);
@@ -113,11 +110,12 @@ function popularHandler(req, res){
 
 function addMovieHandler(req,res){
     //console.log(req.body);
-    let {title,time,overView} =req.body; //destructuring //
+    let {title,poster_path,overView,comment} =req.body; //destructuring //
    // console.log(title,time,overView);
-   let sql = `INSERT INTO Movie (title, time, overView)
-   VALUES ($1,$2,$3) RETURNING *; `
-   let values = [title,time,overView];
+    
+   let sql = `INSERT INTO Movie (title, poster_path, overView,comment)
+   VALUES ($1,$2,$3,$4) RETURNING *; `
+   let values = [title,poster_path,overView,comment];
 
     client.query(sql,values).then((result)=>{
          // res.status(201).send("data successfully saved in dataBase")
