@@ -33,6 +33,10 @@ app.get('/top_rated',topratedHandler);
 app.get('/popular', popularHandler);
 app.post('/addMovie',addMovieHandler);
 app.get('/getAllMovies',getAllMoviesHandlers);
+app.put('/updateMovie/:id', updateMovieHandler);
+app.get('/getMovie/:id', getMovieByIdHandler);
+app.delete('/DELETE/:id', deleteMovieHandler);
+
 
 
 //should be the last line in routes   //// * => mean any thing than your routes links!!
@@ -124,12 +128,48 @@ function addMovieHandler(req,res){
 }
 
 function getAllMoviesHandlers(req,res){
-    let sql=`SELECT * FROM movie;`
+    let sql=`SELECT * FROM Movie;`
     client.query(sql).then((result)=>{
         //console.log(result.rows);
         res.json(result.rows);
     }).catch()
 }
+
+function updateMovieHandler(req,res){
+    let id = req.params.id
+    let { comment } = req.body
+    let sql = "UPDATE Movie SET comment=$1 WHERE id=$2 RETURNING *;";
+    let values = [comment, id];
+    client.query(sql, values)
+      .then(result => {
+        res.send(result.rows)
+      })
+      .catch()
+}
+
+function getMovieByIdHandler(req,res){
+
+    let id = req.params.id
+    let sql = `SELECT * FROM Movie  WHERE id=$1;`
+    let values = [id];
+     client.query(sql, values)
+    .then((result) => {
+      res.json(result.rows)
+    })
+    .catch()
+
+}
+
+function deleteMovieHandler(req,res){
+    let id = req.params.id; 
+    let sql=`DELETE FROM Movie WHERE id = $1;` ;
+    let value = [id];
+    client.query(sql,value).then(result=>{
+        res.status(204).send("deleted");
+    }).catch()
+
+}
+
 
 //constructor
 function MovieData(id,title,release_date,poster_path,overview){

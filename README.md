@@ -78,3 +78,27 @@ download new stuff
 - lean how to connect a database to aserver 
 - how to insert the data inside my table 
 - get my database and show it in a table using a Get methods !!
+
+
+
+------------------------------------------------------
+
+## - v1.3 UPDATES
+
+---------------------------
+
+## Api img 
+
+![DataBase](./assets/CRUD.jpeg)
+
+
+--------------------------
+
+## COMPLETE OUR SERVER 
+ 
+ - BY ADDING A UPDATE METHOD 
+ - ADDING DELETE METHOD
+ - ADD GETBYID METHOD
+
+
+ 
