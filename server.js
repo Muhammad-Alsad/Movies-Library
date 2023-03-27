@@ -34,6 +34,7 @@ app.get('/popular', popularHandler);
 app.post('/addMovie',addMovieHandler);
 app.get('/getAllMovies',getAllMoviesHandlers);
 
+
 //should be the last line in routes   //// * => mean any thing than your routes links!!
 app.get('*',handleNotFoundError);
 
@@ -109,11 +110,12 @@ function popularHandler(req, res){
 
 function addMovieHandler(req,res){
     //console.log(req.body);
-    let {title,time,overView} =req.body; //destructuring //
+    let {title,poster_path,overView,comment} =req.body; //destructuring //
    // console.log(title,time,overView);
-   let sql = `INSERT INTO Movie (title, time, overView)
-   VALUES ($1,$2,$3) RETURNING *; `
-   let values = [title,time,overView];
+    
+   let sql = `INSERT INTO Movie (title, poster_path, overView,comment)
+   VALUES ($1,$2,$3,$4) RETURNING *; `
+   let values = [title,poster_path,overView,comment];
 
     client.query(sql,values).then((result)=>{
          // res.status(201).send("data successfully saved in dataBase")
