@@ -17,11 +17,13 @@ const apiKey=process.env.api_key;
 const username=process.env.user_name;
 const Password=process.env.password ;
 const Dbname = process.env.DbName;
+//const urlDb = process.env.Url_db
 
-//pg
+//pg ==> postgres dataBase
 const { Client } = require('pg')
 //postgres:username:password@localhost:5432/databasename
-let url=`postgres:${username}:${Password}@localhost:5432/${Dbname}`
+//`postgres:${username}:${Password}@localhost:5432/${Dbname}`
+let url=process.env.DATABASE_URL
 const client = new Client(url)
 
 //routes
