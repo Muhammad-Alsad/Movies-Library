@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(cors());
-const port = process.env.Portnum;
+const port = process.env.PORT;
 const apiKey=process.env.api_key;
 const username=process.env.user_name;
 const Password=process.env.password ;
